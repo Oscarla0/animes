@@ -5,7 +5,8 @@ import { render } from 'react-dom';
 import { history } from './_helpers';
 import { accountService } from './_services';
 import { App } from './app';
-
+import GlobalStyle from './anime/Gloabalstyle';
+import { GlobalContextProvider } from './anime/context/global';
 import './styles.less';
 
 // setup fake backend
@@ -15,11 +16,14 @@ configureFakeBackend();
 // attempt silent token refresh before startup
 accountService.refreshToken().finally(startApp);
 
-function startApp() { 
+function startApp() {
     render(
-        <Router history={history}>
-            <App />
-        </Router>,
+        <GlobalContextProvider>
+            <GlobalStyle />
+            <Router history={history}>
+                <App />
+            </Router>
+        </GlobalContextProvider>,
         document.getElementById('app')
     );
 }

@@ -3,12 +3,11 @@ import { useGlobalContext } from '../context/global'
 import Popular from './Popular'
 import styled from 'styled-components'
 import Upcoming from './Upcoming'
-import Navbar from "./MenuBar";
 import Airing from './Airing'
 import { Button, Input } from 'antd';
 import { FireOutlined, PlusOutlined } from '@ant-design/icons';
 import { accountService } from '@/_services';
-import { Nav, PrivateRoute, Alert } from '@/_components';
+
 function Homepage() {
     const { handleSubmit,
         search,
@@ -39,8 +38,6 @@ function Homepage() {
 
     return (
         <HomepageStyled>
-            <Nav setRendered={setRendered}/>
-            <Navbar setRendered={setRendered} />
             <header>
                 <div className="logo">
                     <h1>
