@@ -8,10 +8,11 @@ import { App } from './app';
 import GlobalStyle from './anime/Gloabalstyle';
 import { GlobalContextProvider } from './anime/context/global';
 import './styles.less';
-
 // setup fake backend
 import { configureFakeBackend } from './_helpers';
+import { GlobalContextProvider } from './anime/context/global';
 configureFakeBackend();
+GlobalContextProvider();
 
 // attempt silent token refresh before startup
 accountService.refreshToken().finally(startApp);

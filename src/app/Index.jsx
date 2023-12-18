@@ -9,6 +9,7 @@ import { Admin } from '@/admin';
 import { Account } from '@/account';
 import Homepage from '../anime/Components/Homepage';
 import Gallery from '../anime/Components/Gallery';
+import AnimeItem from '../anime/Components/AnimeItem';
 function App() {
   const { pathname } = useLocation();  
   const [user, setUser] = useState({});
@@ -26,8 +27,9 @@ function App() {
         <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute path="/profile" component={Profile} />
-        <PrivateRoute path="/anime" component={Homepage} />
-        <PrivateRoute path="/character/:id" element={<Gallery />} />
+        <PrivateRoute path="/anime/" component={Homepage} />
+        <PrivateRoute path="/character/:id" component={<Gallery />} />
+        <PrivateRoute path="/anime/:id" component={<AnimeItem />} />
         <PrivateRoute path="/admin" roles={[Role.Admin]} component={Admin} />
         <Route path="/account" component={Account} />
         <Redirect from="*" to="/" />

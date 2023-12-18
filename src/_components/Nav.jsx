@@ -19,9 +19,9 @@ function Nav() {
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
                 <div className="navbar-nav">
-                    <NavLink exact to="/" className="nav-item nav-link">Home</NavLink>
+                    <NavLink  to="/" className="nav-item nav-link">Home</NavLink>
                     <NavLink to="/profile" className="nav-item nav-link">Profile</NavLink>
-                    <NavLink to="/anime" className="nav-item nav-link">Anime</NavLink>
+                    <NavLink to="/anime/inbox" className="nav-item nav-link">Anime</NavLink>
                     {user.role === Role.Admin &&
                         <NavLink to="/admin" className="nav-item nav-link">Admin</NavLink>
                     }
