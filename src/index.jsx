@@ -18,8 +18,8 @@ accountService.refreshToken().finally(startApp);
 function startApp() {
     render(
         <React.StrictMode>
+            <GlobalStyle />
             <GlobalContextProvider>
-                <GlobalStyle />
                 <Router history={history}>
                     <App />
                 </Router>

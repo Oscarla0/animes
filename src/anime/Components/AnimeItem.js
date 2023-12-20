@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import Navbar from './MenuBar'
 
 function AnimeItem() {
     const {id} = useParams()
@@ -42,7 +41,7 @@ function AnimeItem() {
     }, [])
 
     return (
-        <><Navbar /><AnimeItemStyled>
+        <><AnimeItemStyled>
             <h1>{title}</h1>
             <div className="details">
                 <div className="detail">
