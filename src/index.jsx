@@ -10,21 +10,21 @@ import { GlobalContextProvider } from './anime/context/global';
 import './styles.less';
 // setup fake backend
 import { configureFakeBackend } from './_helpers';
-import { GlobalContextProvider } from './anime/context/global';
 configureFakeBackend();
-GlobalContextProvider();
 
 // attempt silent token refresh before startup
 accountService.refreshToken().finally(startApp);
 
 function startApp() {
     render(
-        <GlobalContextProvider>
-            <GlobalStyle />
-            <Router history={history}>
-                <App />
-            </Router>
-        </GlobalContextProvider>,
+        <React.StrictMode>
+            <GlobalContextProvider>
+                <GlobalStyle />
+                <Router history={history}>
+                    <App />
+                </Router>
+            </GlobalContextProvider>
+        </React.StrictMode>,
         document.getElementById('app')
     );
 }
