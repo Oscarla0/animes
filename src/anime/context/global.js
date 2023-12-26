@@ -115,7 +115,7 @@ export const GlobalContextProvider = ({children}) => {
         getPopularAnime();
     }, [])
     
-    return(
+    return (
         <GlobalContext.Provider value={{
             ...state,
             handleChange,
@@ -125,11 +125,11 @@ export const GlobalContextProvider = ({children}) => {
             getPopularAnime,
             getUpcomingAnime,
             getAiringAnime,
-            getAnimePictures 
+            getAnimePictures,
         }}>
-            {children}
+            {children} {/* Ensure that the children prop is correctly passed here */}
         </GlobalContext.Provider>
-    )
+    );
 }
 
 export const useGlobalContext = () => {

@@ -27,9 +27,9 @@ function App() {
         <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute path="/profile" component={Profile} />
-        <PrivateRoute path="/anime/" component={Homepage} />
-        <PrivateRoute path="/character/:id" component={<Gallery />} />
-        <PrivateRoute path="/anime/:id" component={<AnimeItem />} />
+        <PrivateRoute path="/anime/inbox" component={Homepage} />
+        <PrivateRoute path="/anime/:id" component={AnimeItem} />
+        <PrivateRoute path="/character/:id" component={Gallery} />
         <PrivateRoute path="/admin" roles={[Role.Admin]} component={Admin} />
         <Route path="/account" component={Account} />
         <Redirect from="*" to="/" />

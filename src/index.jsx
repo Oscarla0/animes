@@ -11,19 +11,20 @@ import './styles.less';
 // setup fake backend
 import { configureFakeBackend } from './_helpers';
 configureFakeBackend();
-GlobalContextProvider();
 
 // attempt silent token refresh before startup
 accountService.refreshToken().finally(startApp);
 
 function startApp() {
     render(
-        <GlobalContextProvider>
+        <React.StrictMode>
             <GlobalStyle />
-            <Router history={history}>
-                <App />
-            </Router>
-        </GlobalContextProvider>,
+            <GlobalContextProvider>
+                <Router history={history}>
+                    <App />
+                </Router>
+            </GlobalContextProvider>
+        </React.StrictMode>,
         document.getElementById('app')
     );
 }

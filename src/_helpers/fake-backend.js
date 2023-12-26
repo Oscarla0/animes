@@ -1,6 +1,6 @@
 import { Role } from './'
 import { alertService } from '@/_services';
-
+import { useGlobalContext } from '../anime/context/global';
 // array in local storage for registered users
 const usersKey = 'react-signup-verification-boilerplate-users';
 let users = JSON.parse(localStorage.getItem(usersKey)) || [];
@@ -13,7 +13,7 @@ export function configureFakeBackend() {
             setTimeout(handleRoute, 500);
 
             function handleRoute() {
-                const { method } = opts;
+                const { method } = opts || {};
                 switch (true) {
                     case url.endsWith('/accounts/authenticate') && method === 'POST':
                         return authenticate();
@@ -41,6 +41,12 @@ export function configureFakeBackend() {
                         return updateUser();
                     case url.match(/\/accounts\/\d+$/) && method === 'DELETE':
                         return deleteUser();
+                    case url.endsWith('/anime/inbox') && method === 'GET':
+                        return useGlobalContext();
+                    case url.endsWith('/anime/inbox/:id') && method === 'GET':
+                        return useGlobalContext();
+                        case url.endsWith('/anime/character/:id') && method === 'GET':
+                        return useGlobalContext();
                     default:
                         // pass through any requests not handled above
                         return realFetch(url, opts)

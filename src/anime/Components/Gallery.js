@@ -21,12 +21,6 @@ function Gallery() {
 
     return (
         <GalleryStyled>
-            <div className="back">
-                <Link to="/">
-                    <i className="fas fa-arrow-left"></i>
-                    Back to Home
-                </Link>
-            </div>
             <div className="big-image">
                 <img src={pictures[index]?.jpg.image_url} alt="" />
             </div>
