@@ -1,48 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Route } from 'react-router-dom';
+import { Menu } from 'antd';
+import { HomeOutlined, UserOutlined, ToolOutlined, LogoutOutlined } from '@ant-design/icons';
+import SubMenu from 'antd/lib/menu/SubMenu';
 
 import { Role } from '@/_helpers';
 import { accountService } from '@/_services';
 
 function Nav() {
-    const [user, setUser] = useState({});
+  const [user, setUser] = useState({});
 
-    useEffect(() => {
-        const subscription = accountService.user.subscribe(x => setUser(x));
-        return subscription.unsubscribe;
-    }, []);
+  useEffect(() => {
+    const subscription = accountService.user.subscribe(x => setUser(x));
+    return subscription.unsubscribe;
+  }, []);
 
-    // only show nav when logged in
-    if (!user) return null;
+  // Solo muestra la barra de navegación cuando el usuario está logeado
+  if (!user) return null;
 
-    return (
-        <div>
-            <nav className="navbar navbar-expand navbar-dark bg-dark">
-                <div className="navbar-nav">
-                    <NavLink  to="/" className="nav-item nav-link">Home</NavLink>
-                    <NavLink to="/profile" className="nav-item nav-link">Profile</NavLink>
-                    <NavLink to="/anime/inbox" className="nav-item nav-link">Anime</NavLink>
-                    {user.role === Role.Admin &&
-                        <NavLink to="/admin" className="nav-item nav-link">Admin</NavLink>
-                    }
-                    <a onClick={accountService.logout} className="nav-item nav-link">Logout</a>
-                </div>
-            </nav>
-            <Route path="/admin" component={AdminNav} />
-        </div>
-    );
+  return (
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 1000 }}>
+      <Menu theme="dark" mode="horizontal">
+        <Menu.Item key="home" icon={<HomeOutlined />}>
+          <NavLink to="/" className="nav-link">Home</NavLink>
+        </Menu.Item>
+        <Menu.Item key="profile" icon={<UserOutlined />}>
+          <NavLink to="/profile" className="nav-link">Profile</NavLink>
+        </Menu.Item>
+        {user.role === Role.Admin && (
+          <Menu.Item key="admin" icon={<ToolOutlined />} title="Admin">
+            <NavLink to="/admin/users" className="nav-link">Admin</NavLink>
+          </Menu.Item>
+        )}
+        <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={accountService.logout}>
+          Logout
+        </Menu.Item>
+      </Menu>
+      <Route path="/admin" component={AdminNav} />
+    </div>
+  );
 }
 
 function AdminNav({ match }) {
-    const { path } = match;
+  const { path } = match;
 
-    return (
-        <nav className="admin-nav navbar navbar-expand navbar-light">
-            <div className="navbar-nav">
-                <NavLink to={`${path}/users`} className="nav-item nav-link">Users</NavLink>
-            </div>
-        </nav>
-    );
+  return (
+    <Menu theme="light" mode="horizontal">
+      {/* Añade tus elementos de AdminNav aquí */}
+    </Menu>
+  );
 }
 
-export { Nav }; 
+export { Nav };

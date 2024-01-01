@@ -1,31 +1,33 @@
 import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { Tag } from 'antd';
 
 function AnimeItem() {
-    const {id} = useParams()
+    const { id } = useParams()
 
-    //estados
+    // Estados
     const [anime, setAnime] = React.useState({})
     const [characters, setCharacters] = React.useState([])
     const [showMore, setShowMore] = React.useState(false)
 
-    //destructurar anime
+    // Destructurar anime
     const {
-        title, synopsis, 
-        trailer,duration,aired, 
-        season, images, rank, 
-        score,scored_by, popularity, 
-        status, rating, source } = anime
+        title, synopsis,
+        trailer, duration, aired,
+        season, images, rank,
+        score, scored_by, popularity,
+        status, rating, source
+    } = anime
 
-    //Obtener anime en base del ID
+    // Obtener anime en base al ID
     const getAnime = async (anime) => {
         const response = await fetch(`https://api.jikan.moe/v4/anime/${anime}`)
         const data = await response.json()
         setAnime(data.data)
     }
 
-    //Obtener los personajes
+    // Obtener los personajes
     const getCharacters = async (anime) => {
         const response = await fetch(`https://api.jikan.moe/v4/anime/${anime}/characters`)
         const data = await response.json()
@@ -33,70 +35,71 @@ function AnimeItem() {
         console.log(data.data)
     }
 
-
-    //render inicial
+    // Render inicial
     useEffect(() => {
         getAnime(id)
         getCharacters(id)
     }, [])
 
     return (
-        <><AnimeItemStyled>
-            <h1>{title}</h1>
-            <div className="details">
-                <div className="detail">
-                    <div className="image">
-                        <img src={images?.jpg.large_image_url} alt="" />
-                    </div>
-                    <div className="anime-details">
-                        <p><span>Aired:</span><span>{aired?.string}</span></p>
-                        <p><span>Rating:</span><span>{rating}</span></p>
-                        <p><span>Rank:</span><span>{rank}</span></p>
-                        <p><span>Score:</span><span>{score}</span></p>
-                        <p><span>Scored By:</span><span>{scored_by}</span></p>
-                        <p><span>Popularity:</span><span>{popularity}</span></p>
-                        <p><span>Status:</span><span>{status}</span></p>
-                        <p><span>Source:</span><span>{source}</span></p>
-                        <p><span>Season:</span><span>{season}</span></p>
-                        <p><span>Duration:</span><span>{duration}</span></p>
-                    </div>
-                </div>
-                <h1>Bio:</h1>
-                <p className="description">
-                    {showMore ? synopsis : synopsis?.substring(0, 450) + '...'}
-                    <button onClick={() => {
-                        setShowMore(!showMore)
-                    } }>{showMore ? 'Show Less' : 'Read More'}</button>
-                </p>
-            </div>
-            <h3 className="title">Trailer</h3>
-            <div className="trailer-con">
-                {trailer?.embed_url ?
-                    <iframe
-                        src={trailer?.embed_url}
-                        title="Inline Frame Example"
-                        width="800"
-                        height="450"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen>
-                    </iframe> :
-                    <h3>Trailer no disponible</h3>}
-            </div>
-            <h3 className="title">Personajes</h3>
-            <div className="characters">
-                {characters?.map((character, index) => {
-                    const { role } = character
-                    const { images, name, mal_id } = character.character
-                    return <Link to={`/character/${mal_id}`} key={index}>
-                        <div className="character">
-                            <img src={images?.jpg.image_url} alt="" />
-                            <h4>{name}</h4>
-                            <p>{role}</p>
+        <>
+            <AnimeItemStyled>
+                <h1>{title}</h1>
+                <div className="details">
+                    <div className="detail">
+                        <div className="image">
+                            <img src={images?.jpg.large_image_url} alt="" />
                         </div>
-                    </Link>
-                })}
-            </div>
-        </AnimeItemStyled></>
+                        <div className="anime-details">
+                            <p><span>Aired:</span><span><Tag color="magenta">{aired?.string}</Tag></span></p>
+                            <p><span>Rating:</span><span><Tag color="volcano">{rating}</Tag></span></p>
+                            <p><span>Rank:</span><span><Tag color="orange">{rank}</Tag></span></p>
+                            <p><span>Score:</span><span><Tag color="gold">{score}</Tag></span></p>
+                            <p><span>Scored By:</span><span><Tag color="lime">{scored_by}</Tag></span></p>
+                            <p><span>Popularity:</span><span><Tag color="cyan">{popularity}</Tag></span></p>
+                            <p><span>Status:</span><span><Tag color="geekblue">{status}</Tag></span></p>
+                            <p><span>Source:</span><span><Tag color="purple">{source}</Tag></span></p>
+                            <p><span>Season:</span><span><Tag color="blue">{season}</Tag></span></p>
+                            <p><span>Duration:</span><span><Tag color="green">{duration}</Tag></span></p>
+                        </div>
+                    </div>
+                    <h1>Bio:</h1>
+                    <p className="description">
+                        {showMore ? synopsis : synopsis?.substring(0, 450) + '...'}
+                        <button onClick={() => {
+                            setShowMore(!showMore)
+                        }}>{showMore ? 'Show Less' : 'Read More'}</button>
+                    </p>
+                </div>
+                <h3 className="title">Trailer</h3>
+                <div className="trailer-con">
+                    {trailer?.embed_url ?
+                        <iframe
+                            src={trailer?.embed_url}
+                            title="Inline Frame Example"
+                            width="800"
+                            height="450"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen>
+                        </iframe> :
+                        <h3>Trailer no disponible</h3>}
+                </div>
+                <h3 className="title">Personajes</h3>
+                <div className="characters">
+                    {characters?.map((character, index) => {
+                        const { role } = character
+                        const { images, name, mal_id } = character.character
+                        return <Link to={`/character/${mal_id}`} key={index}>
+                            <div className="character">
+                                <img src={images?.jpg.image_url} alt="" />
+                                <h4>{name}</h4>
+                                <p>{role}</p>
+                            </div>
+                        </Link>
+                    })}
+                </div>
+            </AnimeItemStyled>
+        </>
     )
 }
 

@@ -1,50 +1,77 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import styled from 'styled-components'
+import styled from 'styled-components';
 import { useGlobalContext } from '../context/global';
 
 function Gallery() {
-    const {getAnimePictures, pictures} = useGlobalContext()
-    const {id} = useParams();
+    const { getAnimePictures, getCharacters, pictures } = useGlobalContext();
+    const { id } = useParams();
 
-    //estados
-    const [index, setIndex] = React.useState(0);
+    // Estados
+    const [index, setIndex] = useState(0);
+    const [biography, setBiography] = useState('');
 
     const handleImageClick = (i) => {
-        setIndex(i)
-    }
+        setIndex(i);
+        // Obtener la biografía del personaje seleccionado
+        const characterId = pictures[i]?.character?.mal_id;
+        if (characterId) {
+            getCharacterBiography(characterId);
+        }
+    };
 
+    // Obtener la biografía del personaje
+    const getCharacterBiography = async (characterId) => {
+        try {
+            const response = await fetch(`https://api.jikan.moe/v4/character/${characterId}`);
+            const data = await response.json();
+            setBiography(data.data.biography);
+        } catch (error) {
+            console.error('Error fetching character biography:', error);
+        }
+    };
 
-    React.useEffect(() => {
-        getAnimePictures(id)
-    }, [id])
+    useEffect(() => {
+        getAnimePictures(id);
+    }, [id]);
 
     return (
         <GalleryStyled>
+            <div className="back">
+                <Link to={`/anime/${id}`}>
+                    <span>&lt;</span> Back to Anime
+                </Link>
+            </div>
             <div className="big-image">
                 <img src={pictures[index]?.jpg.image_url} alt="" />
+                {biography && <p className="biography">{biography}</p>}
             </div>
             <div className="small-images">
-                {pictures?.map((picture, i) => {
-                    return <div className="image-con" onClick={()=>{
-                        handleImageClick(i)
-                    }} key={i}>
-                        <img 
+                {pictures?.map((picture, i) => (
+                    <div
+                        className="image-con"
+                        onClick={() => {
+                            handleImageClick(i);
+                        }}
+                        key={i}
+                    >
+                        <img
                             src={picture?.jpg.image_url}
                             style={{
-                                border: i === index ? "3px solid #27AE60" : "3px solid #e5e7eb",
+                                border: i === index ? '3px solid #27AE60' : '3px solid #e5e7eb',
                                 filter: i === index ? 'grayscale(0)' : 'grayscale(60%)',
                                 transform: i === index ? 'scale(1.1)' : 'scale(1)',
-                                transition: 'all .3s ease-in-out'
+                                transition: 'all .3s ease-in-out',
                             }}
-                            alt="" 
+                            alt=""
                         />
                     </div>
-                })}
+                ))}
             </div>
         </GalleryStyled>
-    )
+    );
 }
+
 
 const GalleryStyled = styled.div`
     background-color: #EDEDED;
