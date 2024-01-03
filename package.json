@@ -9,6 +9,7 @@
     "scripts": {
         "build": "webpack --mode production",
         "start": "webpack-dev-server --open"
+        
     },
     "dependencies": {
         "@ant-design/icons": "^5.2.6",
