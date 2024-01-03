@@ -25,9 +25,8 @@ function App() {
       <Alert />
       <Switch>
         <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />
-        <PrivateRoute exact path="/" component={Home} />
+        <PrivateRoute exact path="/" component={Homepage} />
         <PrivateRoute path="/profile" component={Profile} />
-        <PrivateRoute path="/anime/inbox" component={Homepage} />
         <PrivateRoute path="/anime/:id" component={AnimeItem} />
         <PrivateRoute path="/character/:id" component={Gallery} />
         <PrivateRoute path="/admin" roles={[Role.Admin]} component={Admin} />

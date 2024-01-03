@@ -1,9 +1,10 @@
-import React, {createContext, useContext, useReducer} from "react";
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+
 
 const GlobalContext = createContext();
 
-const baseUrl = "https://api.jikan.moe/v4";
- 
+const baseUrl = 'https://api.jikan.moe/v4';
+
 //actions
 const LOADING = "LOADING";
 const SEARCH = "SEARCH";
@@ -11,7 +12,8 @@ const GET_POPULAR_ANIME = "GET_POPULAR_ANIME";
 const GET_UPCOMING_ANIME = "GET_UPCOMING_ANIME";
 const GET_AIRING_ANIME = "GET_AIRING_ANIME";
 const GET_PICTURES = "GET_PICTURES";
-
+const GET_ANIME_BY_GENRE = "GET_ANIME_BY_GENRE";
+const GET_GENRES = "GET_GENRES";
 //reducer
 const reducer = (state, action) => {
     switch(action.type){
@@ -27,6 +29,8 @@ const reducer = (state, action) => {
             return {...state, airingAnime: action.payload, loading: false}
         case GET_PICTURES:
             return {...state, pictures: action.payload, loading: false}
+        case GET_ANIME_BY_GENRE:
+            return { ...state, animeByGenre: action.payload, loading: false };
         default:
             return state;
     }
@@ -35,7 +39,7 @@ const reducer = (state, action) => {
 
 export const GlobalContextProvider = ({children}) => {
     //Estados iniciales
-    const intialState = {
+    const initialState = {
         popularAnime: [],
         upcomingAnime: [],
         airingAnime: [],
@@ -43,9 +47,10 @@ export const GlobalContextProvider = ({children}) => {
         isSearch: false,
         searchResults: [],
         loading: false,
-    }
+        genres: [], // Agrega un campo para almacenar los géneros
+      };
 
-    const [state, dispatch] = useReducer(reducer, intialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
     const [search, setSearch] = React.useState('');
 
 
@@ -94,6 +99,19 @@ export const GlobalContextProvider = ({children}) => {
         const data = await response.json();
         dispatch({type: GET_AIRING_ANIME, payload: data.data})
     }
+    // Obtener lista de géneros
+    const getAnimeGenres = async () => {
+        dispatch({type: LOADING});
+        try {
+            const response = await fetch('https://api.jikan.moe/v4/genres/anime');
+            const data = await response.json();
+            dispatch({type: GET_GENRES, payload: data.anime});
+        } catch (error) {
+            console.error('Error al obtener la lista de géneros:', error);
+            dispatch({type: GET_GENRES, payload: []});
+        }
+    }
+
 
     //buscador anime
     const searchAnime = async (anime) => {
@@ -111,12 +129,16 @@ export const GlobalContextProvider = ({children}) => {
         dispatch({type: GET_PICTURES, payload: data.data})
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         getPopularAnime();
-    }, [])
+        // Llama a la función que obtenga la lista de géneros cuando el componente se monte
+        getAnimeGenres();
+      }, []);
     
-    return (
-        <GlobalContext.Provider value={{
+
+      return (
+        <GlobalContext.Provider
+          value={{
             ...state,
             handleChange,
             handleSubmit,
@@ -126,11 +148,13 @@ export const GlobalContextProvider = ({children}) => {
             getUpcomingAnime,
             getAiringAnime,
             getAnimePictures,
-        }}>
-            {children} {/* Ensure that the children prop is correctly passed here */}
+            getAnimeGenres, // Asegúrate de pasar la función al contexto
+          }}
+        >
+          {children}
         </GlobalContext.Provider>
-    );
-}
+      );
+    };
 
 export const useGlobalContext = () => {
     return useContext(GlobalContext);
