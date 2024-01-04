@@ -22,7 +22,7 @@ function List({ match }) {
     }
 
     return (
-        <div>
+        <div style={{marginTop : 100}}>
             <h1>Users</h1>
             <p>All users from secure (admin only) api end point:</p>
             <Link to={`${path}/add`} className="btn btn-sm btn-success mb-2">Add User</Link>

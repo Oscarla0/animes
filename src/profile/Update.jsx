@@ -60,7 +60,7 @@ function Update({ history }) {
     return (
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ errors, touched, isSubmitting }) => (
-                <Form>
+                <Form style={{marginTop : 100}}>
                     <h1>Update Profile</h1>
                     <div className="form-row">
                         <div className="form-group col">

@@ -88,7 +88,7 @@ function AddEdit({ history, match }) {
                 }, []);
 
                 return (
-                    <Form>
+                    <Form style={{ marginTop : 100}}>
                         <h1>{isAddMode ? 'Add User' : 'Edit User'}</h1>
                         <div className="form-row">
                             <div className="form-group col">
