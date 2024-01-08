@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useGlobalContext } from '../context/global';
+import { Table, Typography, Image, Tag } from 'antd';
 
+const { Title } = Typography;
 
 function Gallery() {
     const location = useLocation();
@@ -75,46 +77,38 @@ function Gallery() {
                 ))}
             </div>
             <div className="voice-actors">
-    <h3 className="title">Voice Actors</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Language</th>
-            </tr>
-        </thead>
-        <tbody>
-            {filteredVoiceActors.map((character, characterIndex) => (
-                <React.Fragment key={characterIndex}>
-                    <tr>
-                        <td colSpan="2" className="character-name">
-                            {character.person && character.person.name}
-                        </td>
-                    </tr>
-                    {character.language && (
-                        <tr>
-                            <td colSpan="2" className="language">
-                                Language: {character.language}
-                            </td>
-                        </tr>
-                    )}
-                    {character.person &&
-                        character.person.voice_actors &&
-                        character.person.voice_actors.map((voiceActor, actorIndex) => (
-                            <React.Fragment key={actorIndex}>
-                                <tr>
-                                    <td>Name: {voiceActor.person && voiceActor.person.name}</td>
-                                </tr>
-                                <tr>
-                                    <td>Language: {voiceActor.language}</td>
-                                </tr>
-                            </React.Fragment>
-                        ))}
-                </React.Fragment>
-            ))}
-        </tbody>
-    </table>
-</div>
+                <Title className="title">Voice Actors</Title>
+                <Table dataSource={character?.voice_actors} pagination={false}>
+                    <Table.Column
+                        title="Image"
+                        dataIndex={['person', 'images', 'jpg', 'image_url']}
+                        key="person.images.jpg.image_url"
+                        render={(image, record) => (
+                            <Image src={image} alt={record?.person?.name} />
+                        )}
+                    />
+                    <Table.Column
+                        title="Name"
+                        dataIndex={['person', 'name']}
+                        key="person.name"
+                        render={(text) => (
+                            <div className="tag-container">
+                                <Tag color="blue" className="character-name">{text}</Tag>
+                            </div>
+                        )}
+                    />
+                    <Table.Column
+                        title="Language"
+                        dataIndex="language"
+                        key="language"
+                        render={(text) => (
+                            <div className="tag-container">
+                                <Tag color="green" className="actor-language">{text}</Tag>
+                            </div>
+                        )}
+                    />
+                </Table>
+            </div>
         </GalleryStyled>
     );
 }
@@ -172,29 +166,50 @@ const GalleryStyled = styled.div`
     }
     .voice-actors {
         margin-top: 2rem;
-    
-        h3 {
+
+        ${Title} {
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
-    
-        table {
+
+        ${Image} {
+            width: 50px; // Ajusta el tamaño según tus necesidades
+            height: 50px; // Ajusta el tamaño según tus necesidades
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 10px; // Ajusta el espaciado entre la imagen y el texto
+        }
+
+        ${Table} {
             width: 100%;
-            border-collapse: collapse;
-    
+
             th, td {
                 border: 1px solid #e5e7eb;
                 padding: 0.5rem;
                 text-align: left;
             }
-    
+
+            .actor-info {
+                display: flex;
+                align-items: center;
+            }
+
             .character-name {
                 font-weight: bold;
             }
-    
-            .language {
+
+            .actor-language {
                 font-style: italic;
             }
+
+            .tag-container {
+                display: flex;
+                margin-top: 5px; // Ajusta el espaciado entre las etiquetas y el contenido de la tabla
+            }
+        }
+
+        ${Tag} {
+            margin-right: 5px; // Ajusta el espaciado entre las etiquetas
         }
     }
 `;

@@ -1,7 +1,7 @@
 import React, { useEffect , useState} from 'react'
 import { Link, useParams,useHistory  } from 'react-router-dom'
 import styled from 'styled-components'
-import { Tag } from 'antd';
+import { Tag , Button} from 'antd';
 
 function AnimeItem() {
     const { id } = useParams()
@@ -95,7 +95,7 @@ function AnimeItem() {
                             <img src={character.character.images?.jpg.image_url} alt="" />
                             <h4>{character.character.name}</h4>
                             <p>{character.role}</p>
-                            <button onClick={() => onViewGallery(character)}>View Gallery</button>
+                            <Button onClick={() => onViewGallery(character)}>View Gallery</Button>
                         </div>
                     ))}
                 </div>
