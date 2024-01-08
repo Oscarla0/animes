@@ -53,7 +53,6 @@ export const GlobalContextProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [search, setSearch] = React.useState('');
 
-
     //handle change
     const handleChange = (e) => {
         setSearch(e.target.value);
@@ -134,7 +133,7 @@ export const GlobalContextProvider = ({children}) => {
         // Llama a la función que obtenga la lista de géneros cuando el componente se monte
         getAnimeGenres();
       }, []);
-    
+
 
       return (
         <GlobalContext.Provider

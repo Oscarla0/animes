@@ -15,8 +15,8 @@ function Homepage() {
   const { getUpcomingAnime, getAiringAnime, getPopularAnime, getAnimeGenres } = useGlobalContext();
 
   const [rendered, setRendered] = React.useState('popular');
-  const [selectedGenre, setSelectedGenre] = React.useState(null);
-
+  const [selectedGenre, setSelectedGenre] = React.useState();
+  console.log(selectedGenre)
   useEffect(() => {
     // Llama a la función que obtenga la lista de géneros cuando el componente se monte
     getAnimeGenres();
@@ -82,7 +82,7 @@ console.log(selectedGenre)
             placeholder="Selecciona un género"
             style={{ width: 200 }}
             onChange={handleGenreChange}
-            value={selectedGenre}
+            defaultValue={selectedGenre}
             loading={!genres}  // Agrega esta línea para manejar la carga de géneros
         >
             {genres &&
