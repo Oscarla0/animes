@@ -38,7 +38,7 @@ function AnimeItem() {
         setCharacters(data.data)
         console.log(data.data)
     }
-
+    console.log(characters)
     // Render inicial
     useEffect(() => {
         getAnime(id)

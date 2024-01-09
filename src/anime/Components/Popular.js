@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 function Popular({ rendered }) {
   const { popularAnime, isSearch, searchResults } = useGlobalContext();
   const [showMore, setShowMore] = useState(10);
-  const maxToShow = 100;
+  const maxToShow = 25;
 
   const conditionalRender = () => {
     const totalAnime = isSearch ? searchResults.length : popularAnime.length;
@@ -21,7 +21,7 @@ function Popular({ rendered }) {
   };
 
   const handleShowMore = () => {
-    setShowMore((prevCount) => Math.min(prevCount + 10, maxToShow));
+    setShowMore((prevCount) => Math.min(prevCount + 5, maxToShow));
   };
 
   return (

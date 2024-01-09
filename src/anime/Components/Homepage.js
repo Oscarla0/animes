@@ -41,7 +41,6 @@ function Homepage() {
     // Puedes implementar la lógica para obtener animes por género aquí
     console.log(selectedGenre); // Asegúrate de que selectedGenre tenga el valor correcto aquí
 };
-console.log(selectedGenre)
   return (
     <HomepageStyled>
       <header>

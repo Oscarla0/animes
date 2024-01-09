@@ -7,7 +7,7 @@ import Sidebar from './Sidebar';
 function Upcoming({ rendered }) {
   const { upcomingAnime, isSearch, searchResults } = useGlobalContext();
   const [showMore, setShowMore] = useState(10);
-  const maxToShow = 100;
+  const maxToShow = 25;
 
   const conditionalRender = () => {
     const totalAnime = isSearch ? searchResults.length : upcomingAnime.length;
@@ -21,7 +21,7 @@ function Upcoming({ rendered }) {
   };
 
   const handleShowMore = () => {
-    setShowMore((prevCount) => Math.min(prevCount + 10, maxToShow));
+    setShowMore((prevCount) => Math.min(prevCount + 5, maxToShow));
   };
 
   return (

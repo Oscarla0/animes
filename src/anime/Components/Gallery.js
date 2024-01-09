@@ -31,9 +31,6 @@ function Gallery() {
         ? character.voice_actors
         : [];
 
-    // Asegúrate de que character.voice_actors no sea undefined
-    console.log(character && character.voice_actors);
-    // Obtener la biografía del personaje
     const getCharacterBiography = async (characterId) => {
         try {
             const response = await fetch(`https://api.jikan.moe/v4/character/${characterId}`);
@@ -163,54 +160,6 @@ const GalleryStyled = styled.div`
             border-radius: 5px;
             border: 3px solid #e5e7eb;
         } 
-    }
-    .voice-actors {
-        margin-top: 2rem;
-
-        ${Title} {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        ${Image} {
-            width: 50px; // Ajusta el tamaño según tus necesidades
-            height: 50px; // Ajusta el tamaño según tus necesidades
-            object-fit: cover;
-            border-radius: 50%;
-            margin-right: 10px; // Ajusta el espaciado entre la imagen y el texto
-        }
-
-        ${Table} {
-            width: 100%;
-
-            th, td {
-                border: 1px solid #e5e7eb;
-                padding: 0.5rem;
-                text-align: left;
-            }
-
-            .actor-info {
-                display: flex;
-                align-items: center;
-            }
-
-            .character-name {
-                font-weight: bold;
-            }
-
-            .actor-language {
-                font-style: italic;
-            }
-
-            .tag-container {
-                display: flex;
-                margin-top: 5px; // Ajusta el espaciado entre las etiquetas y el contenido de la tabla
-            }
-        }
-
-        ${Tag} {
-            margin-right: 5px; // Ajusta el espaciado entre las etiquetas
-        }
     }
 `;
 
