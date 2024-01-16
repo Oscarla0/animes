@@ -61,7 +61,7 @@ function Update({ history }) {
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ errors, touched, isSubmitting }) => (
                 <Form style={{marginTop : 100}}>
-                    <h1>Update Profile</h1>
+                    <h1>Actualizar Perfil</h1>
                     <div className="form-row">
                         <div className="form-group col">
                             <label>Title</label>
@@ -75,31 +75,31 @@ function Update({ history }) {
                             <ErrorMessage name="title" component="div" className="invalid-feedback" />
                         </div>
                         <div className="form-group col-5">
-                            <label>First Name</label>
+                            <label>Nombre</label>
                             <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
                             <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
                         </div>
                         <div className="form-group col-5">
-                            <label>Last Name</label>
+                            <label>Apellido</label>
                             <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
                             <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
                         </div>
                     </div>
                     <div className="form-group">
-                        <label>Email</label>
+                        <label>Correo Electronico</label>
                         <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                         <ErrorMessage name="email" component="div" className="invalid-feedback" />
                     </div>
-                    <h3 className="pt-3">Change Password</h3>
-                    <p>Leave blank to keep the same password</p>
+                    <h3 className="pt-3">Cambiar Contraseña</h3>
+                    <p>Dejarlo en blanco para mantener la contraseña </p>
                     <div className="form-row">
                         <div className="form-group col">
-                            <label>Password</label>
+                            <label>Constraseña</label>
                             <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
                             <ErrorMessage name="password" component="div" className="invalid-feedback" />
                         </div>
                         <div className="form-group col">
-                            <label>Confirm Password</label>
+                            <label>Confirmar Contraseña</label>
                             <Field name="confirmPassword" type="password" className={'form-control' + (errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : '')} />
                             <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
                         </div>
@@ -107,15 +107,15 @@ function Update({ history }) {
                     <div className="form-group">
                         <button type="submit" disabled={isSubmitting} className="btn btn-primary mr-2">
                             {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                            Update
+                            Actualizar
                         </button>
                         <button type="button" onClick={() => onDelete()} className="btn btn-danger" style={{ width: '75px' }} disabled={isDeleting}>
                             {isDeleting
                                 ? <span className="spinner-border spinner-border-sm"></span>
-                                : <span>Delete</span>
+                                : <span>Elminar</span>
                             }
                         </button>
-                        <Link to="." className="btn btn-link">Cancel</Link>
+                        <Link to="." className="btn btn-link">Cancelar</Link>
                     </div>
                 </Form>
             )}

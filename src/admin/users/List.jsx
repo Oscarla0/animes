@@ -1,68 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Button, Table, Space, Typography, Spin, Modal } from 'antd';
+import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 import { accountService } from '@/_services';
 
+const { Title } = Typography;
+const { confirm } = Modal;
+
 function List({ match }) {
-    const { path } = match;
-    const [users, setUsers] = useState(null);
+  const { path } = match;
+  const [users, setUsers] = useState(null);
 
-    useEffect(() => {
-        accountService.getAll().then(x => setUsers(x));
-    }, []);
+  useEffect(() => {
+    accountService.getAll().then(x => setUsers(x));
+  }, []);
 
-    function deleteUser(id) {
+  const deleteUser = id => {
+    confirm({
+      title: 'Confirmar Eliminación',
+      icon: <ExclamationCircleOutlined />,
+      content: '¿Estás seguro de que quieres eliminar este usuario?',
+      okText: 'Eliminar',
+      cancelText: 'Cancelar',
+      onOk() {
         setUsers(users.map(x => {
-            if (x.id === id) { x.isDeleting = true; }
-            return x;
+          if (x.id === id) { x.isDeleting = true; }
+          return x;
         }));
         accountService.delete(id).then(() => {
-            setUsers(users => users.filter(x => x.id !== id));
+          setUsers(users => users.filter(x => x.id !== id));
         });
-    }
+      },
+    });
+  };
 
-    return (
-        <div style={{marginTop : 100}}>
-            <h1>Users</h1>
-            <p>All users from secure (admin only) api end point:</p>
-            <Link to={`${path}/add`} className="btn btn-sm btn-success mb-2">Add User</Link>
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th style={{ width: '30%' }}>Name</th>
-                        <th style={{ width: '30%' }}>Email</th>
-                        <th style={{ width: '30%' }}>Role</th>
-                        <th style={{ width: '10%' }}></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users && users.map(user =>
-                        <tr key={user.id}>
-                            <td>{user.title} {user.firstName} {user.lastName}</td>
-                            <td>{user.email}</td>
-                            <td>{user.role}</td>
-                            <td style={{ whiteSpace: 'nowrap' }}>
-                                <Link to={`${path}/edit/${user.id}`} className="btn btn-sm btn-primary mr-1">Edit</Link>
-                                <button onClick={() => deleteUser(user.id)} className="btn btn-sm btn-danger" style={{ width: '60px' }} disabled={user.isDeleting}>
-                                    {user.isDeleting 
-                                        ? <span className="spinner-border spinner-border-sm"></span>
-                                        : <span>Delete</span>
-                                    }
-                                </button>
-                            </td>
-                        </tr>
-                    )}
-                    {!users &&
-                        <tr>
-                            <td colSpan="4" className="text-center">
-                                <span className="spinner-border spinner-border-lg align-center"></span>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    );
+  const columns = [
+    {
+      title: 'Nombre',
+      dataIndex: 'name',
+      key: 'name',
+      render: (text, record) => `${record.title} ${record.firstName} ${record.lastName}`,
+    },
+    {
+      title: 'Correo Electrónico',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Rol',
+      dataIndex: 'role',
+      key: 'role',
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <Space size="middle">
+          <Link to={`${path}/edit/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />}>
+              Editar
+            </Button>
+          </Link>
+          <Button
+            type="danger"
+            onClick={() => deleteUser(record.id)}
+            disabled={record.isDeleting}
+            icon={<DeleteOutlined />}
+          >
+            {record.isDeleting ? <Spin size="small" /> : 'Eliminar'}
+          </Button>
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <div style={{ marginTop: 100 }}>
+      <Title level={2}>Usuarios</Title>
+      <Link to={`${path}/add`}>
+        <Button type="primary" size="small" style={{ marginBottom: 16 }}>
+          Añadir Usuario
+        </Button>
+      </Link>
+      <Table
+        dataSource={users}
+        columns={columns}
+        rowKey="id"
+        loading={!users}
+        locale={{
+          emptyText: <Spin size="large" />,
+        }}
+      />
+    </div>
+  );
 }
 
 export { List };

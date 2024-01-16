@@ -89,7 +89,7 @@ function AddEdit({ history, match }) {
 
                 return (
                     <Form style={{ marginTop : 100}}>
-                        <h1>{isAddMode ? 'Add User' : 'Edit User'}</h1>
+                        <h1>{isAddMode ? 'Añadir Usuario' : 'Editar Usuario'}</h1>
                         <div className="form-row">
                             <div className="form-group col">
                                 <label>Title</label>
@@ -103,24 +103,24 @@ function AddEdit({ history, match }) {
                                 <ErrorMessage name="title" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group col-5">
-                                <label>First Name</label>
+                                <label>Nombre</label>
                                 <Field name="firstName" type="text" className={'form-control' + (errors.firstName && touched.firstName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="firstName" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group col-5">
-                                <label>Last Name</label>
+                                <label>Apellido</label>
                                 <Field name="lastName" type="text" className={'form-control' + (errors.lastName && touched.lastName ? ' is-invalid' : '')} />
                                 <ErrorMessage name="lastName" component="div" className="invalid-feedback" />
                             </div>
                         </div>
                         <div className="form-row">
                             <div className="form-group col-7">
-                                <label>Email</label>
+                                <label>Correo Electronico</label>
                                 <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
                                 <ErrorMessage name="email" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group col">
-                                <label>Role</label>
+                                <label>Rol</label>
                                 <Field name="role" as="select" className={'form-control' + (errors.role && touched.role ? ' is-invalid' : '')}>
                                     <option value=""></option>
                                     <option value="User">User</option>
@@ -131,18 +131,18 @@ function AddEdit({ history, match }) {
                         </div>
                         {!isAddMode &&
                             <div>
-                                <h3 className="pt-3">Change Password</h3>
-                                <p>Leave blank to keep the same password</p>
+                                <h3 className="pt-3">Cambiar Contraseña</h3>
+                                <p>Dejarlo en blanco para mantener la contraseña </p>
                             </div>
                         }
                         <div className="form-row">
                             <div className="form-group col">
-                                <label>Password</label>
+                                <label>Contraseña</label>
                                 <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
                                 <ErrorMessage name="password" component="div" className="invalid-feedback" />
                             </div>
                             <div className="form-group col">
-                                <label>Confirm Password</label>
+                                <label>Confirmar Contraseña</label>
                                 <Field name="confirmPassword" type="password" className={'form-control' + (errors.confirmPassword && touched.confirmPassword ? ' is-invalid' : '')} />
                                 <ErrorMessage name="confirmPassword" component="div" className="invalid-feedback" />
                             </div>
@@ -150,9 +150,9 @@ function AddEdit({ history, match }) {
                         <div className="form-group">
                             <button type="submit" disabled={isSubmitting} className="btn btn-primary">
                                 {isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                                Save
+                                Guardar
                             </button>
-                            <Link to={isAddMode ? '.' : '..'} className="btn btn-link">Cancel</Link>
+                            <Link to={isAddMode ? '.' : '..'} className="btn btn-link">Cancelar</Link>
                         </div>
                     </Form>
                 );

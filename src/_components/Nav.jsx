@@ -33,6 +33,7 @@ function Nav() {
           </Menu.Item>
         )}
         <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={accountService.logout}>
+          <br ></br>
           Logout
         </Menu.Item>
       </Menu>
